@@ -1,0 +1,18 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--field-gap-primitives);
+  width: 100%;
+}
+
+.field__label {
+  font-family: var(--fontfamily-base);
+  font-size: var(--field-label-fontsize);
+  font-weight: var(--field-label-fontweight);
+  line-height: var(--field-label-lineheight);
+  color: var(--field-label-color);
+}
+
+.field__asterisk {
+  color: var(--field-asterisk-color);
+}

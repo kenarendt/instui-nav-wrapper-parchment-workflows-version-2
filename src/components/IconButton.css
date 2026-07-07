@@ -1,0 +1,38 @@
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--button-medium-height);
+  height: var(--button-medium-height);
+  border-radius: var(--radius-button);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: filter 120ms ease;
+}
+
+.icon-btn:hover {
+  filter: brightness(0.96);
+}
+
+.icon-btn:focus-visible {
+  outline: var(--focus-outline-width) solid var(--focus-outline-color);
+  outline-offset: 2px;
+}
+
+.icon-btn--primary {
+  background: var(--button-primary-bg);
+  border-color: var(--button-primary-border);
+  color: var(--button-primary-color);
+}
+
+.icon-btn--secondary {
+  background: var(--button-secondary-bg);
+  border-color: var(--button-secondary-border);
+  color: var(--button-secondary-color);
+}
+
+.icon-btn--tertiary {
+  background: transparent;
+  border-color: transparent;
+  color: var(--icon-sidenav-color);
+}

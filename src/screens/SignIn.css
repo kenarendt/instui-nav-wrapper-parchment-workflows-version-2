@@ -1,0 +1,171 @@
+.signin {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+/* Background — brand-blue stand-in for the Figma photo, with the
+   bottom-up dark gradient overlay from the design. */
+.signin__bg {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      0deg,
+      rgba(0, 16, 25, 0.72) 1%,
+      rgba(0, 16, 25, 0) 99%
+    ),
+    radial-gradient(120% 120% at 15% 20%, #2f7cc0 0%, #1f5f9e 45%, #123f6e 100%);
+}
+
+.signin__content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xl);
+  width: 442.667px;
+  max-width: calc(100% - 32px);
+  margin: 0 auto;
+  padding-top: 175px;
+}
+
+.signin__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  align-self: center;
+}
+
+.signin__wordmark {
+  font-family: var(--fontfamily-heading);
+  font-weight: var(--fontweight-heading-strong);
+  font-size: var(--fontsize-textxl);
+  line-height: 1.25;
+  color: var(--text-baseoncolor);
+}
+
+.signin__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  width: 100%;
+  padding: var(--space-lg);
+  background: var(--background-containercolor);
+  border-radius: var(--radius-container-lg);
+  box-shadow: var(--shadow-elevation1);
+}
+
+.signin__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  width: 100%;
+}
+
+.signin__title {
+  margin: 0;
+  font-family: var(--fontfamily-heading);
+  font-weight: var(--fontweight-heading-strong);
+  font-size: var(--fontsize-textxl);
+  line-height: 1.25;
+  color: var(--heading-basecolor);
+}
+
+.signin__subtitle {
+  margin: 0;
+  font-family: var(--fontfamily-base);
+  font-weight: var(--fontweight-body-base);
+  font-size: var(--fontsize-textbase);
+  line-height: 1.5;
+  color: var(--text-mutedcolor);
+}
+
+.signin__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-inputs-vertical);
+  width: 100%;
+}
+
+.signin__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-buttons);
+  width: 100%;
+}
+
+.signin__actions .btn {
+  width: 100%;
+}
+
+.signin__register {
+  margin: 0;
+  width: 100%;
+  text-align: center;
+  font-family: var(--fontfamily-base);
+  font-weight: var(--fontweight-body-base);
+  font-size: var(--fontsize-textbase);
+  line-height: 1.5;
+  color: var(--heading-basecolor);
+}
+
+.signin__link {
+  color: var(--text-link-color);
+  font-weight: var(--fontweight-body-strong);
+  text-decoration: underline;
+}
+
+/* Prototype-only landing override control */
+.signin__demo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  width: 100%;
+  padding: var(--space-md);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: var(--radius-navitem);
+}
+
+.signin__demo-label {
+  font-family: var(--fontfamily-base);
+  font-size: 12px;
+  font-weight: var(--fontweight-body-strong);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-baseoncolor);
+  opacity: 0.9;
+}
+
+.signin__seg {
+  display: inline-flex;
+  padding: 3px;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 999px;
+}
+
+.signin__seg-btn {
+  padding: 6px 16px;
+  border: none;
+  background: transparent;
+  border-radius: 999px;
+  font-family: var(--fontfamily-base);
+  font-weight: var(--fontweight-body-strong);
+  font-size: var(--fontsize-textsm);
+  color: var(--text-baseoncolor);
+  cursor: pointer;
+  transition: background 120ms ease, color 120ms ease;
+}
+
+.signin__seg-btn--active {
+  background: var(--background-containercolor);
+  color: var(--heading-basecolor);
+}
+
+.signin__seg-btn:focus-visible {
+  outline: var(--focus-outline-width) solid var(--focus-outline-color);
+  outline-offset: 2px;
+}

@@ -1,0 +1,61 @@
+.adminhub__group-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  width: 100%;
+}
+
+.adminhub__group-title {
+  margin: 0;
+  font-family: var(--fontfamily-heading);
+  font-weight: var(--fontweight-heading-strong);
+  font-size: 24px;
+  line-height: 1.25;
+  color: var(--heading-basecolor);
+}
+
+.adminhub__brand {
+  font-family: var(--fontfamily-heading);
+  font-weight: var(--fontweight-heading-strong);
+  font-size: var(--fontsize-textbase);
+  color: var(--icon-sidenav-color);
+}
+
+.adminhub__rows {
+  display: flex;
+  flex-direction: column;
+  margin-top: var(--space-md);
+}
+
+.adminhub__promo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  text-align: center;
+}
+
+.adminhub__promo-art {
+  font-size: 44px;
+  line-height: 1;
+}
+
+.adminhub__promo-text {
+  margin: 0;
+  font-family: var(--fontfamily-base);
+  font-size: var(--fontsize-textsm);
+  line-height: 1.5;
+  color: var(--text-mutedcolor);
+}
+
+.adminhub__promo-brand {
+  font-family: var(--fontfamily-heading);
+  font-weight: var(--fontweight-heading-strong);
+  font-size: var(--fontsize-textbase);
+  color: var(--icon-sidenav-color);
+}
+
+.adminhub__promo .btn {
+  width: 100%;
+}

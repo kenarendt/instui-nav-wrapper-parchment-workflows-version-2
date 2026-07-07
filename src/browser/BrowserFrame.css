@@ -1,0 +1,127 @@
+.browser {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  background: var(--background-pagecolor);
+}
+
+.browser__chrome {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 42px;
+  padding: 0 12px;
+  background: #dfe3e8;
+  border-bottom: 1px solid #cfd4da;
+  flex-shrink: 0;
+}
+
+.browser__dots {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.browser__dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+}
+.browser__dot--red { background: #ff5f57; }
+.browser__dot--amber { background: #febc2e; }
+.browser__dot--green { background: #28c840; }
+
+.browser__tabs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.browser__tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 30px;
+  max-width: 200px;
+  padding: 0 10px;
+  background: #eef1f4;
+  border-radius: 8px 8px 0 0;
+  cursor: pointer;
+  color: var(--text-mutedcolor);
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+.browser__tab--active {
+  background: var(--background-containercolor);
+  color: var(--heading-basecolor);
+}
+
+.browser__tab-favicon {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  background: #1d354f;
+  flex-shrink: 0;
+}
+
+.browser__tab-title {
+  font-family: var(--fontfamily-base);
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.browser__tab-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border: none;
+  background: transparent;
+  border-radius: 4px;
+  color: inherit;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.browser__tab-close:hover { background: rgba(0, 0, 0, 0.08); }
+
+.browser__newtab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  color: var(--text-mutedcolor);
+  flex-shrink: 0;
+}
+
+.browser__gemini {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 26px;
+  padding: 0 12px;
+  background: var(--background-containercolor);
+  border: 1px solid #cfd4da;
+  border-radius: 999px;
+  font-family: var(--fontfamily-base);
+  font-size: 13px;
+  color: var(--heading-basecolor);
+  flex-shrink: 0;
+}
+
+.browser__viewport {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}

@@ -1,0 +1,27 @@
+.stat-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.stat-tile__value {
+  font-family: var(--fontfamily-heading);
+  font-weight: var(--fontweight-heading-strong);
+  font-size: 32px;
+  line-height: 1.1;
+  color: var(--heading-basecolor);
+}
+
+.stat-tile__label {
+  font-family: var(--fontfamily-base);
+  font-size: var(--fontsize-textsm);
+  color: var(--heading-basecolor);
+}
+
+.stat-tile__hint {
+  font-family: var(--fontfamily-base);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-mutedcolor);
+}
