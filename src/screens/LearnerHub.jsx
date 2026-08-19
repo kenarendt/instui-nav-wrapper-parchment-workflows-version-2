@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   LayoutDashboard,
   Sparkles,
@@ -13,7 +12,6 @@ import Wrapper from "../components/Wrapper.jsx";
 import Panel from "../components/blocks/Panel.jsx";
 import Button from "../components/Button.jsx";
 import IconButton from "../components/IconButton.jsx";
-import Tabs from "../components/Tabs.jsx";
 import { useBrowser } from "../browser/BrowserContext.jsx";
 import { account } from "../data/experiences.js";
 import "./LearnerHub.css";
@@ -72,7 +70,6 @@ const PEOPLE = [
 
 export default function LearnerHub() {
   const { openTab } = useBrowser();
-  const [tab, setTab] = useState("professional");
 
   const openDashboard = (label) =>
     openTab({
@@ -234,22 +231,13 @@ export default function LearnerHub() {
         productLogo: "instructure",
       }}
       activeProfileId="learner"
-      title="Hub Dashboard"
+      experienceType="learner"
+      title="Learner Connect Dashboard"
       actions={
         <>
           <Button variant="secondary">Customize Dashboard</Button>
           <IconButton icon={Maximize} variant="secondary" screenReaderLabel="Expand view" />
         </>
-      }
-      tabs={
-        <Tabs
-          value={tab}
-          onChange={setTab}
-          tabs={[
-            { id: "professional", label: "Professional" },
-            { id: "personal", label: "Personal" },
-          ]}
-        />
       }
       trailing={trailing}
     >

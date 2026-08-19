@@ -29,6 +29,27 @@
   max-width: none;
 }
 
+.wrap__topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  width: 100%;
+}
+
+.wrap__breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-family: var(--fontfamily-base);
+  font-size: var(--fontsize-textsm);
+  color: var(--text-mutedcolor);
+}
+
+.wrap__topright {
+  margin-left: auto;
+}
+
 .wrap__header {
   display: flex;
   flex-direction: column;

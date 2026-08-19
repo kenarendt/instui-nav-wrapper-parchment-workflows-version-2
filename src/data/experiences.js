@@ -4,8 +4,8 @@
  * One account login can carry several experiences. At the top level they fall
  * into two categories: a Learner experience and an Admin experience. If the
  * account has both, sign-in lands on the Admin experience. Each experience
- * lands on a "Hub" (a welcome-mat dashboard). Hub modules deep-link into
- * detailed experiences that open in new (simulated) browser tabs.
+ * lands on a "Connect" dashboard (a welcome-mat dashboard). Connect modules
+ * deep-link into detailed experiences that open in new (simulated) browser tabs.
  *
  * Admin services are grouped, per the design, into:
  *   - Parchment Award Services: Transcript Services, Diploma Services, Dual Enrollment
@@ -138,14 +138,14 @@ export const EXPERIENCES = [
     type: "admin",
     label: "Admin",
     sublabel: account.adminRole,
-    landing: { kind: "adminHub", title: "Hub" },
+    landing: { kind: "adminHub", title: "Admin Connect" },
   },
   {
     id: "learner",
     type: "learner",
     label: "Learner",
     sublabel: account.learnerRole,
-    landing: { kind: "learnerHub", title: "Hub" },
+    landing: { kind: "learnerHub", title: "Learner Connect" },
   },
 ];
 
@@ -165,7 +165,7 @@ export const PROFILES = [
     role: "Learner",
     sub: null,
     avatar: "learner",
-    tab: { kind: "learnerHub", title: "Hub", dedupeKey: "learnerHub" },
+    tab: { kind: "learnerHub", title: "Learner Connect", dedupeKey: "learnerHub" },
   },
   {
     id: "transcript",

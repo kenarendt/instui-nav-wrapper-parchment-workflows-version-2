@@ -13,6 +13,9 @@ import "./Wrapper.css";
 export default function Wrapper({
   navProps = {},
   activeProfileId,
+  experienceType,
+  breadcrumb,
+  topRight,
   title,
   description,
   actions,
@@ -31,18 +34,43 @@ export default function Wrapper({
     window.location.reload();
   };
 
+  // Jump between the Learner and Admin Connect experiences from the Account menu.
+  const crossConnect =
+    experienceType === "learner"
+      ? {
+          label: "Admin Connect Dashboard",
+          onClick: () => openTab({ kind: "adminHub", title: "Admin Connect", dedupeKey: "adminHub" }),
+        }
+      : experienceType === "admin"
+      ? {
+          label: "Learner Connect Dashboard",
+          onClick: () => openTab({ kind: "learnerHub", title: "Learner Connect", dedupeKey: "learnerHub" }),
+        }
+      : null;
+
   return (
     <div className="wrap">
       <GlobalNav
         {...navProps}
         profiles={PROFILES}
         activeProfileId={activeProfileId}
+        crossConnect={crossConnect}
         onSwitchProfile={handleSwitchProfile}
         onLogout={handleLogout}
       />
 
       <main className="wrap__container">
         <div className={`wrap__content${fullWidth ? " wrap__content--full" : ""}`}>
+          {(breadcrumb || topRight) && (
+            <div className="wrap__topbar">
+              {breadcrumb && (
+                <nav className="wrap__breadcrumb" aria-label="Breadcrumb">
+                  {breadcrumb}
+                </nav>
+              )}
+              {topRight && <div className="wrap__topright">{topRight}</div>}
+            </div>
+          )}
           {(title || actions) && (
             <div className="wrap__header">
               <div className="wrap__header-row">

@@ -476,6 +476,37 @@
 }
 .gnav__panel-link:hover { background: #eef1f8; }
 
+/* Cross-experience jump */
+.gnav__crossconnect {
+  margin-top: var(--space-lg);
+}
+.gnav__crossconnect-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--nav-border-color);
+  background: var(--background-containercolor);
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: var(--fontfamily-base);
+  font-weight: var(--fontweight-body-strong);
+  font-size: var(--fontsize-textbase);
+  color: var(--heading-basecolor);
+  text-align: left;
+}
+.gnav__crossconnect-btn:hover { background: #eef1f8; }
+.gnav__crossconnect-btn > span {
+  display: flex;
+  flex-direction: column;
+}
+.gnav__crossconnect-hint {
+  font-weight: var(--fontweight-body-base);
+  font-size: var(--fontsize-textsm);
+  color: var(--text-mutedcolor);
+}
+
 /* User interface controls */
 .gnav__panel-ui {
   margin-top: auto;

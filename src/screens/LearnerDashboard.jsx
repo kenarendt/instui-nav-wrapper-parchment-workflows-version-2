@@ -47,6 +47,7 @@ export default function LearnerDashboard({ params = {} }) {
         productLogo: "instructure",
       }}
       activeProfileId="learner"
+      experienceType="learner"
       title={params.title || "Learner Dashboard"}
       description="Your courses, grades, and progress at a glance."
       actions={<IconButton icon={Maximize} variant="secondary" screenReaderLabel="Expand view" />}

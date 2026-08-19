@@ -18,6 +18,7 @@ import {
   Moon,
   ALargeSmall,
   Contrast,
+  ArrowLeftRight,
 } from "lucide-react";
 import CanvasLogo from "./CanvasLogo.jsx";
 import SchoolCrest from "./SchoolCrest.jsx";
@@ -59,6 +60,7 @@ export default function GlobalNav({
   productLogo = "canvas",
   profiles = [],
   activeProfileId,
+  crossConnect,
   onSwitchProfile,
   onLogout,
 }) {
@@ -258,6 +260,25 @@ export default function GlobalNav({
               </div>
             )}
           </div>
+
+          {/* Cross-experience jump (Learner ⇄ Admin Connect) */}
+          {crossConnect && (
+            <div className="gnav__crossconnect">
+              <button
+                className="gnav__crossconnect-btn"
+                onClick={() => {
+                  crossConnect.onClick();
+                  closeAccount();
+                }}
+              >
+                <ArrowLeftRight size={20} strokeWidth={2} />
+                <span>
+                  View {crossConnect.label}
+                  <span className="gnav__crossconnect-hint">Opens in a new tab</span>
+                </span>
+              </button>
+            </div>
+          )}
 
           {/* Account menu */}
           <ul className="gnav__panel-menu">

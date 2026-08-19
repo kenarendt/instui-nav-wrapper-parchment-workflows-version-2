@@ -99,7 +99,7 @@ export default function SignIn({ onSignIn }) {
               aria-pressed={landing === "admin"}
               onClick={() => setLanding("admin")}
             >
-              Admin Hub
+              Admin Connect
             </button>
             <button
               type="button"
@@ -107,7 +107,7 @@ export default function SignIn({ onSignIn }) {
               aria-pressed={landing === "learner"}
               onClick={() => setLanding("learner")}
             >
-              Learner Hub
+              Learner Connect
             </button>
           </div>
         </div>
