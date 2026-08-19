@@ -2,6 +2,7 @@ import { useState } from "react";
 import {
   LayoutDashboard,
   FileStack,
+  Receipt,
   Settings,
   Maximize,
   Plus,
@@ -21,9 +22,14 @@ import IconButton from "../components/IconButton.jsx";
 import Select from "../components/Select.jsx";
 import DonutChart from "../components/blocks/DonutChart.jsx";
 import AINote from "../components/blocks/AINote.jsx";
+import RecordCard from "../components/blocks/RecordCard.jsx";
+import RecordDetail from "./RecordDetail.jsx";
+import ShareModal from "../components/ShareModal.jsx";
+import CreateRecordFlow from "../components/CreateRecordFlow.jsx";
 import SchoolCrest from "../components/SchoolCrest.jsx";
 import CredentialMark from "../components/CredentialMark.jsx";
 import { account } from "../data/experiences.js";
+import { RECORDS } from "../data/records.js";
 import {
   SCHOOLS,
   OTHER_BADGES,
@@ -34,8 +40,9 @@ import {
 import "./ParchmentCredentials.css";
 
 const NAV_ITEMS = [
-  { key: "dashboard", label: "Dashboard", Icon: LayoutDashboard, active: true },
-  { key: "records", label: "Records", Icon: FileStack },
+  { key: "dashboard", label: "Dashboard", Icon: LayoutDashboard },
+  { key: "records", label: "My Records", Icon: FileStack },
+  { key: "orders", label: "Orders", Icon: Receipt },
   { key: "settings", label: "Settings", Icon: Settings },
 ];
 
@@ -157,8 +164,114 @@ function SchoolView({ school }) {
 }
 
 export default function ParchmentCredentials() {
+  const [page, setPage] = useState("dashboard");
+  const [openedRecord, setOpenedRecord] = useState(null);
+  const [shareOpen, setShareOpen] = useState(false);
+  const [createOpen, setCreateOpen] = useState(false);
+  const [records, setRecords] = useState(RECORDS);
   const [active, setActive] = useState("bambusa");
   const [addOpen, setAddOpen] = useState(false);
+
+  const navItems = NAV_ITEMS.map((item) => ({
+    ...item,
+    active: item.key === (openedRecord ? "records" : page),
+    onClick: () => {
+      setOpenedRecord(null);
+      setPage(item.key);
+    },
+  }));
+
+  // ── Record detail (drill-down) ───────────────────────────────────
+  if (openedRecord) {
+    return (
+      <>
+        <RecordDetail
+          record={openedRecord}
+          onBack={() => setOpenedRecord(null)}
+          onShare={() => setShareOpen(true)}
+        />
+        {shareOpen && (
+          <ShareModal recordTitle={openedRecord.title} onClose={() => setShareOpen(false)} />
+        )}
+      </>
+    );
+  }
+
+  // ── My Records page ──────────────────────────────────────────────
+  if (page === "records") {
+    return (
+      <Wrapper
+        navProps={{
+          logo: <CredentialMark size={40} />,
+          institutionName: "Parchment",
+          username: account.name,
+          userRole: account.learnerRole,
+          items: navItems,
+          productLogo: "parchment",
+        }}
+        activeProfileId="learner"
+        experienceType="learner"
+        title="My records"
+        description="Package your credentials and skills into records that tell a specific story and open new opportunities."
+        actions={
+          <Button variant="primary" icon={Plus} onClick={() => setCreateOpen(true)}>
+            Create new record
+          </Button>
+        }
+        fullWidth
+      >
+        <div className="records-grid">
+          {records.map((r) => (
+            <RecordCard
+              key={r.id}
+              record={r}
+              onOpen={() => setOpenedRecord(r)}
+              onAction={(item) => {
+                if (item === "Preview public view") setOpenedRecord(r);
+              }}
+            />
+          ))}
+        </div>
+
+        {createOpen && (
+          <CreateRecordFlow
+            onClose={() => setCreateOpen(false)}
+            onCreate={(rec) => {
+              setRecords((list) => [rec, ...list]);
+              setCreateOpen(false);
+              setOpenedRecord(rec);
+            }}
+          />
+        )}
+      </Wrapper>
+    );
+  }
+
+  // ── Orders / Settings placeholders ───────────────────────────────
+  if (page === "orders" || page === "settings") {
+    const label = page === "orders" ? "Orders" : "Settings";
+    return (
+      <Wrapper
+        navProps={{
+          logo: <CredentialMark size={40} />,
+          institutionName: "Parchment",
+          username: account.name,
+          userRole: account.learnerRole,
+          items: navItems,
+          productLogo: "parchment",
+        }}
+        activeProfileId="learner"
+        experienceType="learner"
+        title={label}
+        description="This section is coming soon."
+        fullWidth
+      >
+        <Panel title={label}>
+          <p className="pc-muted">Content for {label} is not part of this prototype yet.</p>
+        </Panel>
+      </Wrapper>
+    );
+  }
 
   const TABS = [
     ...SCHOOLS.map((s) => ({ id: s.id, label: s.name })),
@@ -274,10 +387,11 @@ export default function ParchmentCredentials() {
         institutionName: navName,
         username: account.name,
         userRole: account.learnerRole,
-        items: NAV_ITEMS,
+        items: navItems,
         productLogo: "parchment",
       }}
       activeProfileId="learner"
+      experienceType="learner"
       title="Parchment Credentials"
       actions={
         <>

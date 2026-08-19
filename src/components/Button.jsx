@@ -9,6 +9,7 @@ export default function Button({
   variant = "primary",
   onClick,
   type = "button",
+  icon: Icon,
 }) {
   return (
     <button
@@ -16,6 +17,7 @@ export default function Button({
       className={`btn btn--${variant}`}
       onClick={onClick}
     >
+      {Icon && <Icon size={18} strokeWidth={2} aria-hidden="true" />}
       {children}
     </button>
   );
