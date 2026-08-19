@@ -36,3 +36,9 @@
   border-color: var(--button-secondary-border);
   color: var(--button-secondary-color);
 }
+
+.btn--tertiary {
+  background: var(--background-containercolor);
+  border-color: #c7cdd4;
+  color: var(--button-secondary-color);
+}

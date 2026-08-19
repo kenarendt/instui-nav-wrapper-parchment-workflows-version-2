@@ -1,0 +1,22 @@
+.metric-stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+.metric-stat__label {
+  font-family: var(--fontfamily-base);
+  font-size: var(--fontsize-textsm);
+  color: var(--text-mutedcolor);
+}
+.metric-stat__value {
+  font-family: var(--fontfamily-heading);
+  font-weight: var(--fontweight-heading-strong);
+  font-size: 40px;
+  line-height: 1.1;
+  color: var(--heading-basecolor);
+}
+.metric-stat__hint {
+  font-family: var(--fontfamily-base);
+  font-size: var(--fontsize-textsm);
+  color: var(--text-mutedcolor);
+}

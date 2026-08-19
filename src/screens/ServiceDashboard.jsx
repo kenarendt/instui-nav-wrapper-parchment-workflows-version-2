@@ -15,6 +15,9 @@ import StatTile from "../components/blocks/StatTile.jsx";
 import LineChart from "../components/blocks/LineChart.jsx";
 import DonutChart from "../components/blocks/DonutChart.jsx";
 import AINote from "../components/blocks/AINote.jsx";
+import ReceiveDashboard from "./ReceiveDashboard.jsx";
+import DiplomaDashboard from "./DiplomaDashboard.jsx";
+import DualEnrollmentDashboard from "./DualEnrollmentDashboard.jsx";
 import { serviceById, account } from "../data/experiences.js";
 import "./ServiceDashboard.css";
 
@@ -44,6 +47,10 @@ function Row({ title, desc, action }) {
 }
 
 export default function ServiceDashboard({ serviceId }) {
+  if (serviceId === "receive") return <ReceiveDashboard />;
+  if (serviceId === "diploma") return <DiplomaDashboard />;
+  if (serviceId === "dualEnrollment") return <DualEnrollmentDashboard />;
+
   const service = serviceById(serviceId);
   if (!service) return null;
   const d = service.dashboard;
@@ -97,6 +104,7 @@ export default function ServiceDashboard({ serviceId }) {
         productLogo: "parchment",
       }}
       activeProfileId={serviceId}
+      experienceType="admin"
       title={`${service.name} Dashboard`}
       actions={
         <>

@@ -1,0 +1,123 @@
+/* Workspace rows */
+.dpl-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  padding: var(--space-lg) 0;
+}
+.dpl-row--divided {
+  border-top: 1px solid var(--nav-border-color);
+}
+.dpl-row__body {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+.dpl-row__title {
+  margin: 0;
+  font-family: var(--fontfamily-heading);
+  font-weight: var(--fontweight-heading-strong);
+  font-size: var(--fontsize-textlg);
+  line-height: 1.25;
+  color: var(--heading-basecolor);
+}
+.dpl-row__desc {
+  margin: 0;
+  font-family: var(--fontfamily-base);
+  font-size: var(--fontsize-textbase);
+  line-height: 1.5;
+  color: var(--text-mutedcolor);
+}
+.dpl-row__actions {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--gap-buttons, 12px);
+}
+
+/* Big number tile */
+.dpl-stat {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 96px;
+  height: 96px;
+  border-radius: var(--radius-card-sm);
+  background: var(--background-pagecolor);
+  font-family: var(--fontfamily-heading);
+  font-weight: var(--fontweight-heading-strong);
+  font-size: 44px;
+  color: var(--heading-basecolor);
+}
+
+/* Rocket illustration (no tile) */
+.dpl-illus {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 96px;
+  height: 72px;
+  color: #1d354f;
+}
+
+/* Metrics */
+.dpl-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-xl);
+  margin-bottom: var(--space-lg);
+}
+@media (max-width: 720px) {
+  .dpl-metrics { grid-template-columns: 1fr; }
+}
+.dpl-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--space-lg);
+}
+.dpl-foot__meta {
+  font-family: var(--fontfamily-base);
+  font-size: var(--fontsize-textsm);
+  color: var(--text-mutedcolor);
+}
+.dpl-foot__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--fontfamily-base);
+  font-weight: var(--fontweight-body-strong);
+  font-size: var(--fontsize-textbase);
+  color: var(--heading-basecolor);
+}
+.dpl-foot__link:hover { text-decoration: underline; }
+
+/* New Issue Event trailing panel */
+.dpl-nie__sub {
+  margin: 0;
+  font-family: var(--fontfamily-base);
+  font-size: var(--fontsize-textsm);
+  color: var(--text-mutedcolor);
+}
+.dpl-nie__art {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-lg) 0 var(--space-sm);
+  color: #2871af;
+}
+.dpl-nie__caption {
+  margin: 0 0 var(--space-md);
+  text-align: center;
+  font-family: var(--fontfamily-base);
+  font-size: var(--fontsize-textbase);
+  color: var(--text-mutedcolor);
+}
+.dpl-nie .btn { width: 100%; }
