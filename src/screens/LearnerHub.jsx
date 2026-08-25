@@ -4,7 +4,6 @@ import {
   Sparkles,
   Inbox,
   CircleHelp,
-  Maximize,
   FileText,
   AlertCircle,
   ChevronRight,
@@ -12,10 +11,12 @@ import {
 import Wrapper from "../components/Wrapper.jsx";
 import Panel from "../components/blocks/Panel.jsx";
 import Button from "../components/Button.jsx";
-import IconButton from "../components/IconButton.jsx";
-import Tabs from "../components/Tabs.jsx";
 import { useBrowser } from "../browser/BrowserContext.jsx";
-import { account } from "../data/experiences.js";
+import {
+  LEARNER_SCHOOLS,
+  account,
+  learnerSchoolById,
+} from "../data/experiences.js";
 import "./LearnerHub.css";
 
 const NAV_ITEMS = [
@@ -25,31 +26,46 @@ const NAV_ITEMS = [
   { key: "help", label: "Help", Icon: CircleHelp },
 ];
 
-const SCHOOLS = [
-  {
-    name: "Ponda High School",
-    stats: [
-      { value: 1, label: "Assignment overdue", tone: "danger" },
-      { value: 3, label: "Assignments due this week", tone: "info" },
-      { value: 2, label: "Grades this week", tone: "success" },
-    ],
-  },
-  {
-    name: "Bamboo University",
-    stats: [
-      { value: 0, label: "Assignment overdue", tone: "muted" },
-      { value: 2, label: "Assignments due this week", tone: "info" },
-      { value: 1, label: "Grades this week", tone: "muted" },
-    ],
-  },
+// Course work spans every connected school. `schoolId` ties each item to one.
+const COURSEWORK = [
+  { schoolId: "panda", icon: AlertCircle, title: "Lab Report: Photosynthesis", course: "Biology I", status: "Overdue", tone: "danger" },
+  { schoolId: "panda", icon: FileText, title: "Essay: The Great Gatsby", course: "American Literature", status: "Turn in 11:59 pm", tone: "info" },
+  { schoolId: "panda", icon: FileText, title: "Problem Set 3: Kinematics", course: "Physics I", status: "Tomorrow 5:00 pm", tone: "info" },
+  { schoolId: "bambusa", icon: FileText, title: "Analysis of White Noise", course: "Contemporary American Fiction", status: "Turn in 11:59 pm", tone: "info" },
+  { schoolId: "bambusa", icon: FileText, title: "Neural Network Fundamentals", course: "Intro to Cognitive Science", status: "Tomorrow 1:00 pm", tone: "info" },
+  { schoolId: "bambusa", icon: FileText, title: "Rousseau and the Social Contract", course: "Foundations of Modern Political Thought", status: "Friday 9:00 am", tone: "info" },
 ];
 
-const COURSEWORK = [
-  { icon: AlertCircle, title: "Analysis of White Noise", course: "Contemporary American Fiction", status: "Overdue", tone: "danger" },
-  { icon: FileText, title: "Neural Network Fundamentals", course: "Intro to Cognitive Science", status: "Turn in 11:59 pm", tone: "info" },
-  { icon: FileText, title: "Rousseau and the Social Contract", course: "Foundations of Modern Political Thought", status: "Tomorrow 1:00 pm", tone: "info" },
-  { icon: FileText, title: "Problem Set 3: Kinematics", course: "Intro to Cognitive Science", status: "Tomorrow 5:00 pm", tone: "info" },
-];
+// Grades are representative; the assignment counts are derived from COURSEWORK
+// so the rollup can never contradict the list below it.
+const GRADES_THIS_WEEK = { panda: 2, bambusa: 1 };
+
+const SCHOOLS = LEARNER_SCHOOLS.map((school) => {
+  const work = COURSEWORK.filter((c) => c.schoolId === school.id);
+  const overdue = work.filter((c) => c.status === "Overdue").length;
+  const upcoming = work.length - overdue;
+  const grades = GRADES_THIS_WEEK[school.id] ?? 0;
+  return {
+    ...school,
+    stats: [
+      {
+        value: overdue,
+        label: overdue === 1 ? "Assignment overdue" : "Assignments overdue",
+        tone: overdue > 0 ? "danger" : "muted",
+      },
+      {
+        value: upcoming,
+        label: upcoming === 1 ? "Assignment due this week" : "Assignments due this week",
+        tone: upcoming > 0 ? "info" : "muted",
+      },
+      {
+        value: grades,
+        label: grades === 1 ? "Grade this week" : "Grades this week",
+        tone: grades > 0 ? "success" : "muted",
+      },
+    ],
+  };
+});
 
 const CREDENTIALS = [
   { title: "Bachelor of Engineering", kind: "Diploma", school: "Mount Elbert University School of Engineering", date: "Aug 29, 2026" },
@@ -72,7 +88,13 @@ const PEOPLE = [
 
 export default function LearnerHub() {
   const { openTab } = useBrowser();
-  const [tab, setTab] = useState("professional");
+  // Course work filter: "all", or one connected school.
+  const [schoolFilter, setSchoolFilter] = useState("all");
+
+  const visibleCoursework =
+    schoolFilter === "all"
+      ? COURSEWORK
+      : COURSEWORK.filter((c) => c.schoolId === schoolFilter);
 
   const openDashboard = (label) =>
     openTab({
@@ -119,10 +141,37 @@ export default function LearnerHub() {
         ))}
       </Panel>
 
-      <Panel title="Course work" showMenu>
+      <Panel
+        title="Course work"
+        showMenu
+        headerRight={
+          <div className="lh-filter" role="group" aria-label="Filter course work by school">
+            <button
+              type="button"
+              className={`lh-filter__btn${schoolFilter === "all" ? " lh-filter__btn--on" : ""}`}
+              aria-pressed={schoolFilter === "all"}
+              onClick={() => setSchoolFilter("all")}
+            >
+              All schools
+            </button>
+            {LEARNER_SCHOOLS.map((s) => (
+              <button
+                key={s.id}
+                type="button"
+                className={`lh-filter__btn${schoolFilter === s.id ? " lh-filter__btn--on" : ""}`}
+                aria-pressed={schoolFilter === s.id}
+                onClick={() => setSchoolFilter(s.id)}
+              >
+                {s.short}
+              </button>
+            ))}
+          </div>
+        }
+      >
         <ul className="lh-list">
-          {COURSEWORK.map((c, i) => {
+          {visibleCoursework.map((c, i) => {
             const Icon = c.icon;
+            const school = learnerSchoolById(c.schoolId);
             return (
               <li key={i} className="lh-course">
                 <Icon size={20} strokeWidth={2} style={{ color: toneColor[c.tone], flexShrink: 0 }} />
@@ -131,6 +180,7 @@ export default function LearnerHub() {
                   <button className="lh-link lh-link--sm" onClick={() => openDashboard("Course")}>
                     {c.course} · Go to course
                   </button>
+                  <p className="lh-course__school">{school?.name}</p>
                 </div>
                 <span className="lh-pill" style={{ color: toneColor[c.tone], borderColor: toneColor[c.tone] }}>
                   {c.status}
@@ -234,22 +284,13 @@ export default function LearnerHub() {
         productLogo: "instructure",
       }}
       activeProfileId="learner"
-      title="Hub Dashboard"
+      experienceType="learner"
+      showSchoolSummary
+      title="Learner Connect"
       actions={
         <>
           <Button variant="secondary">Customize Dashboard</Button>
-          <IconButton icon={Maximize} variant="secondary" screenReaderLabel="Expand view" />
         </>
-      }
-      tabs={
-        <Tabs
-          value={tab}
-          onChange={setTab}
-          tabs={[
-            { id: "professional", label: "Professional" },
-            { id: "personal", label: "Personal" },
-          ]}
-        />
       }
       trailing={trailing}
     >

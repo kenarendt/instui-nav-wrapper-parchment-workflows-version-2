@@ -1,10 +1,9 @@
-import { LayoutDashboard, BookText, CalendarDays, User, Maximize } from "lucide-react";
+import { LayoutDashboard, BookText, CalendarDays, User } from "lucide-react";
 import Wrapper from "../components/Wrapper.jsx";
 import Panel from "../components/blocks/Panel.jsx";
 import StatTile from "../components/blocks/StatTile.jsx";
 import LineChart from "../components/blocks/LineChart.jsx";
 import Button from "../components/Button.jsx";
-import IconButton from "../components/IconButton.jsx";
 import { account } from "../data/experiences.js";
 
 const NAV_ITEMS = [
@@ -46,11 +45,9 @@ export default function LearnerDashboard({ params = {} }) {
         items: NAV_ITEMS,
         productLogo: "instructure",
       }}
-      activeProfileId="learner"
+      experienceType="learner"
       title={params.title || "Learner Dashboard"}
       description="Your courses, grades, and progress at a glance."
-      actions={<IconButton icon={Maximize} variant="secondary" screenReaderLabel="Expand view" />}
-      fullWidth
       trailing={trailing}
     >
       <Panel title="This term" showMenu>

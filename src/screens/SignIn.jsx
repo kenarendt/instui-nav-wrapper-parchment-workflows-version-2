@@ -3,6 +3,7 @@ import InstructureMark from "../components/InstructureMark.jsx";
 import Select from "../components/Select.jsx";
 import TextInput from "../components/TextInput.jsx";
 import Button from "../components/Button.jsx";
+import Toggle from "../components/Toggle.jsx";
 import "./SignIn.css";
 
 /**
@@ -18,10 +19,14 @@ export default function SignIn({ onSignIn }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [landing, setLanding] = useState("admin");
+  const [multiSchool, setMultiSchool] = useState(false);
+  // On = this email carries one account only, so there is nothing to switch
+  // between and no Connect screen to land on.
+  const [singleAccount, setSingleAccount] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSignIn?.({ product, email, password, landing });
+    onSignIn?.({ product, email, password, landing, multiSchool, singleAccount });
   };
 
   return (
@@ -99,7 +104,7 @@ export default function SignIn({ onSignIn }) {
               aria-pressed={landing === "admin"}
               onClick={() => setLanding("admin")}
             >
-              Admin Hub
+              Admin Connect
             </button>
             <button
               type="button"
@@ -107,8 +112,28 @@ export default function SignIn({ onSignIn }) {
               aria-pressed={landing === "learner"}
               onClick={() => setLanding("learner")}
             >
-              Learner Hub
+              Learner Connect
             </button>
+          </div>
+
+          <div className="signin__opt">
+            <span className="signin__opt-label">
+              Admin supports multiple schools
+            </span>
+            <Toggle
+              label="Admin supports multiple schools"
+              defaultOn={false}
+              onChange={setMultiSchool}
+            />
+          </div>
+
+          <div className="signin__opt">
+            <span className="signin__opt-label">Multi-account simulation off</span>
+            <Toggle
+              label="Multi-account simulation off"
+              defaultOn={false}
+              onChange={setSingleAccount}
+            />
           </div>
         </div>
       </div>

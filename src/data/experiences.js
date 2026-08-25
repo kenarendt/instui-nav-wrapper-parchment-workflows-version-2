@@ -4,8 +4,8 @@
  * One account login can carry several experiences. At the top level they fall
  * into two categories: a Learner experience and an Admin experience. If the
  * account has both, sign-in lands on the Admin experience. Each experience
- * lands on a "Hub" (a welcome-mat dashboard). Hub modules deep-link into
- * detailed experiences that open in new (simulated) browser tabs.
+ * lands on a "Connect" dashboard (a welcome-mat dashboard). Connect modules
+ * deep-link into detailed experiences that open in new (simulated) browser tabs.
  *
  * Admin services are grouped, per the design, into:
  *   - Parchment Award Services: Transcript Services, Diploma Services, Dual Enrollment
@@ -17,8 +17,11 @@ export const account = {
   name: "Peter Panda",
   email: "peter_panda@bambusa-university.edu",
   institution: "Bambusa University",
-  learnerRole: "student",
-  adminRole: "Super user",
+  // Persona labels shown in the nav (the tag on the account card and the
+  // sub-label under the name). These name the account the user is active in,
+  // not their institutional role.
+  learnerRole: "Learner",
+  adminRole: "Admin",
 };
 
 export const SERVICES = {
@@ -138,14 +141,14 @@ export const EXPERIENCES = [
     type: "admin",
     label: "Admin",
     sublabel: account.adminRole,
-    landing: { kind: "adminHub", title: "Hub" },
+    landing: { kind: "adminHub", title: "Admin Connect", dedupeKey: "adminHub" },
   },
   {
     id: "learner",
     type: "learner",
     label: "Learner",
     sublabel: account.learnerRole,
-    landing: { kind: "learnerHub", title: "Hub" },
+    landing: { kind: "learnerHub", title: "Learner Connect", dedupeKey: "learnerHub" },
   },
 ];
 
@@ -155,55 +158,90 @@ export function defaultLanding(experiences = EXPERIENCES) {
 }
 
 /**
- * Switchable profiles listed in the account overlay. Each maps to the tab that
- * opens (or is focused) when the user switches to it. `avatar` selects the
- * avatar treatment: "pp" (initials) or "learner" (photo stand-in).
+ * Switchable profiles listed in the account overlay.
+ *
+ * One account can carry several underlying accounts on the same email, but the
+ * menu presents only the two top-level choices: Learner and Admin. Individual
+ * admin services are reached from inside the Admin experience, not from this
+ * menu. Each entry maps to the tab that opens — or is focused, if that tab is
+ * already open. Both rows use the same avatar: this is one person signed in
+ * with one email, so the initials mark is identical across accounts.
  */
 export const PROFILES = [
   {
     id: "learner",
-    role: "Learner",
+    role: "Learner Connect",
     sub: null,
-    avatar: "learner",
-    tab: { kind: "learnerHub", title: "Hub", dedupeKey: "learnerHub" },
+    avatar: "pp",
+    tab: { kind: "learnerHub", title: "Learner Connect", dedupeKey: "learnerHub" },
   },
   {
-    id: "transcript",
-    role: "Admin",
-    sub: "Transcript Services",
+    id: "admin",
+    role: "Admin Connect",
+    sub: null,
     avatar: "pp",
-    tab: { kind: "service", title: "Transcript", params: { serviceId: "transcript" }, dedupeKey: "service:transcript" },
-  },
-  {
-    id: "diploma",
-    role: "Admin",
-    sub: "Diploma Services",
-    avatar: "pp",
-    tab: { kind: "service", title: "Diploma", params: { serviceId: "diploma" }, dedupeKey: "service:diploma" },
-  },
-  {
-    id: "dualEnrollment",
-    role: "Admin",
-    sub: "Dual Enrollment",
-    avatar: "pp",
-    tab: { kind: "service", title: "Dual Enrollment", params: { serviceId: "dualEnrollment" }, dedupeKey: "service:dualEnrollment" },
-  },
-  {
-    id: "receive",
-    role: "Admin",
-    sub: "Receive",
-    avatar: "pp",
-    tab: { kind: "service", title: "Receive", params: { serviceId: "receive" }, dedupeKey: "service:receive" },
-  },
-  {
-    id: "platform",
-    role: "Admin",
-    sub: "Platform Settings",
-    avatar: "pp",
-    tab: { kind: "platformSettings", title: "Platform Settings", dedupeKey: "platformSettings" },
+    tab: { kind: "adminHub", title: "Admin Connect", dedupeKey: "adminHub" },
   },
 ];
 
 export function serviceById(id) {
   return SERVICES[id];
+}
+
+/**
+ * Schools an admin can administer within a service.
+ *
+ * Some admins work on behalf of several schools inside one Parchment service.
+ * When that applies, the service asks which school the admin is acting for
+ * before showing the dashboard, and the chosen school's crest identifies the
+ * context in the nav. Fictional institutions — `crest` picks the SchoolCrest
+ * artwork.
+ */
+export const ADMIN_SCHOOLS = [
+  {
+    id: "bambusa",
+    name: "Bambusa University",
+    crest: "bambusa",
+    location: "Denver, Colorado",
+    detail: "4-year private · 18,400 learners",
+  },
+  {
+    id: "panda",
+    name: "Panda High School",
+    crest: "panda",
+    location: "Portland, Oregon",
+    detail: "Secondary · 1,260 learners",
+  },
+  {
+    id: "meridian",
+    name: "Meridian Community College",
+    crest: "meridian",
+    location: "Tempe, Arizona",
+    detail: "2-year public · 9,750 learners",
+  },
+  {
+    id: "elbert",
+    name: "Mount Elbert University",
+    crest: "elbert",
+    location: "Leadville, Colorado",
+    detail: "4-year public · 22,100 learners",
+  },
+];
+
+export function schoolById(id) {
+  return ADMIN_SCHOOLS.find((s) => s.id === id);
+}
+
+/**
+ * Schools connected to the learner account. A learner collects course work and
+ * credentials across every school they attend, so more than one is normal. The
+ * nav shows a neutral mark rather than any single crest when there are several.
+ */
+export const LEARNER_SCHOOLS = [
+  { id: "panda", name: "Panda High School", short: "Panda High", crest: "panda" },
+  { id: "bambusa", name: "Bambusa University", short: "Bambusa", crest: "bambusa" },
+];
+
+export function learnerSchoolById(id) {
+  return LEARNER_SCHOOLS.find((s) => s.id === id);
 }

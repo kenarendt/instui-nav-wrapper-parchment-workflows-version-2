@@ -1,0 +1,138 @@
+/* Rows shared by Workspace + Workflows */
+.rcv-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  padding: var(--space-lg) 0;
+}
+.rcv-row--divided {
+  border-top: 1px solid var(--nav-border-color);
+}
+.rcv-row__body {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+.rcv-row__title {
+  margin: 0;
+  font-family: var(--fontfamily-heading);
+  font-weight: var(--fontweight-heading-strong);
+  font-size: var(--fontsize-textlg);
+  line-height: 1.25;
+  color: var(--heading-basecolor);
+}
+.rcv-row__desc {
+  margin: 0;
+  font-family: var(--fontfamily-base);
+  font-size: var(--fontsize-textbase);
+  line-height: 1.5;
+  color: var(--text-mutedcolor);
+  max-width: 46ch;
+}
+.rcv-row__label {
+  margin: 0;
+  font-family: var(--fontfamily-base);
+  font-size: var(--fontsize-textsm);
+  font-weight: var(--fontweight-body-strong);
+  letter-spacing: 0.04em;
+  color: var(--text-mutedcolor);
+}
+.rcv-row__actions {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--gap-buttons, 12px);
+}
+
+/* Big number tile */
+.rcv-stat {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 96px;
+  height: 96px;
+  border-radius: var(--radius-card-sm);
+  background: var(--background-pagecolor);
+  font-family: var(--fontfamily-heading);
+  font-weight: var(--fontweight-heading-strong);
+  font-size: 44px;
+  color: var(--heading-basecolor);
+}
+
+/* Workflow source icon tile */
+.rcv-wf-icon {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  width: 96px;
+  height: 96px;
+  border-radius: var(--radius-card-sm);
+  background: var(--background-pagecolor);
+  color: var(--heading-basecolor);
+}
+.rcv-wf-icon__tag {
+  font-family: var(--fontfamily-base);
+  font-size: 11px;
+  font-weight: var(--fontweight-body-strong);
+  letter-spacing: 0.06em;
+  color: var(--heading-basecolor);
+}
+
+/* Build-a-workflow CTA */
+.rcv-buildwf {
+  display: flex;
+  justify-content: center;
+  padding-top: var(--space-lg);
+}
+.rcv-buildwf__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  height: 40px;
+  padding: 0 var(--space-xl);
+  border: none;
+  border-radius: var(--radius-button);
+  background: linear-gradient(90deg, #5b3fb0 0%, #7d4bb8 100%);
+  color: #ffffff;
+  font-family: var(--fontfamily-base);
+  font-weight: var(--fontweight-body-strong);
+  font-size: var(--button-medium-fontsize);
+  cursor: pointer;
+}
+.rcv-buildwf__btn:hover { filter: brightness(1.05); }
+
+/* Parchment Cloud trailing panel */
+.rcv-cloud__sub {
+  margin: 0;
+  font-family: var(--fontfamily-base);
+  font-size: var(--fontsize-textsm);
+  color: var(--text-mutedcolor);
+}
+.rcv-cloud__art {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-lg) 0 var(--space-sm);
+  color: #2871af;
+}
+.rcv-cloud__num {
+  margin: 0;
+  text-align: center;
+  font-family: var(--fontfamily-heading);
+  font-weight: var(--fontweight-heading-strong);
+  font-size: 44px;
+  color: var(--heading-basecolor);
+}
+.rcv-cloud__caption {
+  margin: 0 0 var(--space-md);
+  text-align: center;
+  font-family: var(--fontfamily-base);
+  font-size: var(--fontsize-textsm);
+  color: var(--text-mutedcolor);
+}
+.rcv-cloud .btn { width: 100%; }

@@ -3,18 +3,19 @@ import {
   FileStack,
   User,
   Settings,
-  Maximize,
   PlusCircle,
   ArrowRight,
 } from "lucide-react";
 import Wrapper from "../components/Wrapper.jsx";
 import Panel from "../components/blocks/Panel.jsx";
 import Button from "../components/Button.jsx";
-import IconButton from "../components/IconButton.jsx";
 import StatTile from "../components/blocks/StatTile.jsx";
 import LineChart from "../components/blocks/LineChart.jsx";
 import DonutChart from "../components/blocks/DonutChart.jsx";
 import AINote from "../components/blocks/AINote.jsx";
+import ReceiveDashboard from "./ReceiveDashboard.jsx";
+import DiplomaDashboard from "./DiplomaDashboard.jsx";
+import DualEnrollmentDashboard from "./DualEnrollmentDashboard.jsx";
 import { serviceById, account } from "../data/experiences.js";
 import "./ServiceDashboard.css";
 
@@ -44,6 +45,10 @@ function Row({ title, desc, action }) {
 }
 
 export default function ServiceDashboard({ serviceId }) {
+  if (serviceId === "receive") return <ReceiveDashboard />;
+  if (serviceId === "diploma") return <DiplomaDashboard />;
+  if (serviceId === "dualEnrollment") return <DualEnrollmentDashboard />;
+
   const service = serviceById(serviceId);
   if (!service) return null;
   const d = service.dashboard;
@@ -96,15 +101,14 @@ export default function ServiceDashboard({ serviceId }) {
         items: NAV_ITEMS,
         productLogo: "parchment",
       }}
-      activeProfileId={serviceId}
+      experienceType="admin"
+      schoolScope={service.name}
       title={`${service.name} Dashboard`}
       actions={
         <>
           <Button variant="secondary">Customize Dashboard</Button>
-          <IconButton icon={Maximize} variant="secondary" screenReaderLabel="Expand view" />
         </>
       }
-      fullWidth
       trailing={trailing}
     >
       <Panel title="Workspace" showMenu>

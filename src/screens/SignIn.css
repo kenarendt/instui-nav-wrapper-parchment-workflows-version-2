@@ -140,6 +140,20 @@
   opacity: 0.9;
 }
 
+.signin__opt {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-top: var(--space-sm);
+}
+
+.signin__opt-label {
+  font-family: var(--fontfamily-base);
+  font-size: var(--fontsize-textsm);
+  font-weight: var(--fontweight-body-strong);
+  color: var(--text-baseoncolor);
+}
+
 .signin__seg {
   display: inline-flex;
   padding: 3px;

@@ -1,6 +1,17 @@
+import { useState } from "react";
+import { Maximize, Minimize } from "lucide-react";
 import GlobalNav from "./GlobalNav.jsx";
+import IconButton from "./IconButton.jsx";
+import SchoolCrest from "./SchoolCrest.jsx";
+import SchoolPickerModal from "./SchoolPickerModal.jsx";
 import { useBrowser } from "../browser/BrowserContext.jsx";
-import { PROFILES } from "../data/experiences.js";
+import {
+  ADMIN_SCHOOLS,
+  LEARNER_SCHOOLS,
+  PROFILES,
+  account,
+  schoolById,
+} from "../data/experiences.js";
 import "./Wrapper.css";
 
 /**
@@ -9,19 +20,126 @@ import "./Wrapper.css";
  * Composes GlobalNav + a content region (header, main, optional trailing
  * content area). The nav's profile switcher opens/focuses the tab for the
  * chosen profile.
+ *
+ * Every page gets an expand/collapse control in the header actions. Expanded
+ * fills the content container; collapsed caps it at a fixed max width. The
+ * trailing rail stays a fixed width in both states — the main column is the
+ * side that flexes. The state is a display preference held in BrowserContext,
+ * so toggling it on one page applies everywhere.
+ *
+ * Admin pages (`experienceType="admin"`) name the school they act on behalf of
+ * under the page title, and carry that school's crest in the nav. Pages that
+ * are not scoped to one school — Admin Connect, Platform settings — say so
+ * instead of naming one: a single-school admin sees their institution, and a
+ * multi-school admin sees a neutral mark and the number of schools they cover.
+ *
+ * Learner pages follow the same rule for the nav mark. Pass
+ * `showSchoolSummary` to also state how many schools are connected under the
+ * page title (Learner Connect does).
+ *
+ * Pass `schoolScope` (the service name) on an admin service page. When the
+ * signed-in admin supports multiple schools, the school is chosen on Admin
+ * Connect before the service opens; here it swaps the nav's institution mark
+ * for that school's crest and adds "Change schools" to the account menu.
  */
+// Spell out small counts, per the house style: one through nine as words,
+// 10 and above as numerals.
+const NUMBER_WORDS = [
+  "zero", "one", "two", "three", "four",
+  "five", "six", "seven", "eight", "nine",
+];
+function countWord(n) {
+  return NUMBER_WORDS[n] ?? String(n);
+}
+function capitalize(word) {
+  return word.charAt(0).toUpperCase() + word.slice(1);
+}
+
 export default function Wrapper({
   navProps = {},
+  // Set only by the Learner Connect and Admin Connect screens, so the matching
+  // account-menu row shows as active there and nowhere else.
   activeProfileId,
+  // "admin" | "learner". Admin pages name the school under the page title.
+  experienceType,
+  // Service name, on admin service pages that belong to one school at a time.
+  schoolScope,
+  // Learner pages: state how many schools are connected under the page title.
+  showSchoolSummary = false,
+  breadcrumb,
+  topRight,
   title,
   description,
   actions,
   tabs,
-  fullWidth = false,
   trailing,
   children,
 }) {
-  const { openTab } = useBrowser();
+  const {
+    openTab,
+    expandedView,
+    toggleExpandedView,
+    multiSchool,
+    singleAccount,
+    activeTab,
+    setTabSchool,
+  } = useBrowser();
+  const [pickerOpen, setPickerOpen] = useState(false);
+
+  // A school only comes into play on a service page, and only when this admin
+  // supports more than one school.
+  const schoolScoped = Boolean(schoolScope) && multiSchool;
+  const school = schoolScoped ? schoolById(activeTab?.params?.schoolId) : undefined;
+  // No school chosen yet means the dashboard has nothing to show — ask first.
+  const showPicker = schoolScoped && (pickerOpen || !school);
+
+  // What the header and nav say about school context.
+  let schoolLine = null;
+  let schoolIdentity = null;
+  if (experienceType === "admin") {
+    if (school) {
+      schoolLine = school.name;
+      schoolIdentity = {
+        institutionName: school.name,
+        logo: <SchoolCrest size={40} variant={school.crest} />,
+      };
+    } else if (multiSchool) {
+      // Spans every school this admin covers, so it names none of them. On a
+      // service page still waiting on a choice, it says nothing at all.
+      schoolLine = schoolScope
+        ? null
+        : `Administering ${countWord(ADMIN_SCHOOLS.length)} schools`;
+      schoolIdentity = {
+        institutionName: "Multiple schools",
+        logo: <SchoolCrest size={40} variant="generic" />,
+      };
+    } else {
+      // One school on the account — the institution is the school.
+      schoolLine = account.institution;
+    }
+  } else if (experienceType === "learner") {
+    const count = LEARNER_SCHOOLS.length;
+    if (count > 1) {
+      schoolIdentity = {
+        institutionName: "Multiple schools",
+        logo: <SchoolCrest size={40} variant="generic" />,
+      };
+      if (showSchoolSummary) {
+        schoolLine = `${capitalize(countWord(count))} schools connected`;
+      }
+    } else {
+      const only = LEARNER_SCHOOLS[0];
+      if (only) {
+        schoolIdentity = {
+          institutionName: only.name,
+          logo: <SchoolCrest size={40} variant={only.crest} />,
+        };
+        if (showSchoolSummary) schoolLine = `${only.name} connected`;
+      }
+    }
+  }
+
+  const nav = { ...navProps, ...(schoolIdentity ?? {}) };
 
   const handleSwitchProfile = (profile) => {
     openTab(profile.tab);
@@ -34,25 +152,48 @@ export default function Wrapper({
   return (
     <div className="wrap">
       <GlobalNav
-        {...navProps}
-        profiles={PROFILES}
+        {...nav}
+        profiles={singleAccount ? [] : PROFILES}
         activeProfileId={activeProfileId}
-        onSwitchProfile={handleSwitchProfile}
+        onSwitchProfile={singleAccount ? undefined : handleSwitchProfile}
+        onChangeSchool={
+          schoolScoped && school ? () => setPickerOpen(true) : undefined
+        }
         onLogout={handleLogout}
       />
 
       <main className="wrap__container">
-        <div className={`wrap__content${fullWidth ? " wrap__content--full" : ""}`}>
+        <div className={`wrap__content${expandedView ? " wrap__content--full" : ""}`}>
+          {(breadcrumb || topRight) && (
+            <div className="wrap__topbar">
+              {breadcrumb && (
+                <nav className="wrap__breadcrumb" aria-label="Breadcrumb">
+                  {breadcrumb}
+                </nav>
+              )}
+              {topRight && <div className="wrap__topright">{topRight}</div>}
+            </div>
+          )}
           {(title || actions) && (
             <div className="wrap__header">
               <div className="wrap__header-row">
                 <div className="wrap__page-info">
                   {title && <h1 className="wrap__title">{title}</h1>}
+                  {schoolLine && <p className="wrap__school">{schoolLine}</p>}
                   {description && (
                     <p className="wrap__description">{description}</p>
                   )}
                 </div>
-                {actions && <div className="wrap__actions">{actions}</div>}
+                <div className="wrap__actions">
+                  {actions}
+                  <IconButton
+                    icon={expandedView ? Minimize : Maximize}
+                    variant="secondary"
+                    pressed={expandedView}
+                    screenReaderLabel={expandedView ? "Collapse view" : "Expand view"}
+                    onClick={toggleExpandedView}
+                  />
+                </div>
               </div>
               {tabs && <div className="wrap__tabs">{tabs}</div>}
             </div>
@@ -68,6 +209,18 @@ export default function Wrapper({
           </div>
         </div>
       </main>
+
+      {showPicker && (
+        <SchoolPickerModal
+          serviceName={schoolScope}
+          selectedId={school?.id}
+          onSelect={(picked) => {
+            if (activeTab) setTabSchool(activeTab.id, picked.id);
+            setPickerOpen(false);
+          }}
+          onClose={() => setPickerOpen(false)}
+        />
+      )}
     </div>
   );
 }

@@ -18,6 +18,7 @@ import {
   Moon,
   ALargeSmall,
   Contrast,
+  Building2,
 } from "lucide-react";
 import CanvasLogo from "./CanvasLogo.jsx";
 import SchoolCrest from "./SchoolCrest.jsx";
@@ -60,6 +61,8 @@ export default function GlobalNav({
   profiles = [],
   activeProfileId,
   onSwitchProfile,
+  // Provided only on a service page where a school is selected.
+  onChangeSchool,
   onLogout,
 }) {
   const [expanded, setExpanded] = useState(false);
@@ -212,32 +215,45 @@ export default function GlobalNav({
             </button>
           </div>
 
-          {/* Profile card + switcher */}
+          {/* Profile card + switcher. With one account there is nothing to
+              switch to, so the card is a plain panel: no caret, not clickable. */}
           <div className="gnav__profile">
-            <button
-              className="gnav__profile-card"
-              aria-expanded={switcherOpen}
-              aria-label="Switch profile"
-              onClick={() => canSwitch && setSwitcherOpen((o) => !o)}
-            >
-              <span className="gnav__profile-text">
-                <span className="gnav__profile-name">{username}</span>
-                <span className="gnav__profile-email">{account.email}</span>
-                <span className="gnav__profile-badge">{userRole}</span>
-              </span>
-              {canSwitch && (
+            {canSwitch ? (
+              <button
+                className="gnav__profile-card"
+                aria-expanded={switcherOpen}
+                aria-label="Switch profile"
+                onClick={() => setSwitcherOpen((o) => !o)}
+              >
+                <span className="gnav__profile-text">
+                  <span className="gnav__profile-name">{username}</span>
+                  <span className="gnav__profile-email">{account.email}</span>
+                  <span className="gnav__profile-badge">{userRole}</span>
+                </span>
                 <ChevronsUpDown size={18} strokeWidth={2} className="gnav__profile-caret" />
-              )}
-            </button>
+              </button>
+            ) : (
+              <div className="gnav__profile-card gnav__profile-card--static">
+                <span className="gnav__profile-text">
+                  <span className="gnav__profile-name">{username}</span>
+                  <span className="gnav__profile-email">{account.email}</span>
+                  <span className="gnav__profile-badge">{userRole}</span>
+                </span>
+              </div>
+            )}
 
             {switcherOpen && canSwitch && (
               <div className="gnav__switcher" role="menu">
                 {profiles.map((p) => {
-                  const isActive = p.id === activeProfileId;
+                  // Active only on that experience's Connect screen — the
+                  // Connect screens are the only pages that set
+                  // activeProfileId. Every other row is hover-only.
+                  const isActive = activeProfileId === p.id;
                   return (
                     <button
                       key={p.id}
                       role="menuitem"
+                      aria-current={isActive ? "true" : undefined}
                       className={`gnav__switch-item${isActive ? " gnav__switch-item--active" : ""}`}
                       onClick={() => {
                         onSwitchProfile(p);
@@ -261,6 +277,19 @@ export default function GlobalNav({
 
           {/* Account menu */}
           <ul className="gnav__panel-menu">
+            {onChangeSchool && (
+              <li>
+                <button
+                  className="gnav__panel-link"
+                  onClick={() => {
+                    onChangeSchool();
+                    closeAccount();
+                  }}
+                >
+                  <Building2 size={20} strokeWidth={2} /> Change schools
+                </button>
+              </li>
+            )}
             <li>
               <button className="gnav__panel-link">
                 <User size={20} strokeWidth={2} /> Profile

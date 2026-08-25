@@ -78,6 +78,35 @@
 }
 .lh-course:first-child { border-top: none; }
 .lh-course__body { flex: 1 1 0; min-width: 0; }
+.lh-course__school {
+  margin: 2px 0 0;
+  font-family: var(--fontfamily-base);
+  font-size: var(--fontsize-textsm);
+  color: var(--text-mutedcolor);
+}
+
+.lh-filter {
+  display: flex;
+  gap: var(--space-xs);
+  flex-wrap: wrap;
+}
+.lh-filter__btn {
+  padding: 5px 12px;
+  border: 1px solid var(--nav-border-color);
+  background: var(--background-containercolor);
+  border-radius: 999px;
+  cursor: pointer;
+  font-family: var(--fontfamily-base);
+  font-size: var(--fontsize-textsm);
+  color: var(--heading-basecolor);
+}
+.lh-filter__btn:hover { background: #e8f0fc; }
+.lh-filter__btn--on,
+.lh-filter__btn--on:hover {
+  background: var(--button-primary-bg);
+  border-color: var(--button-primary-bg);
+  color: #fff;
+}
 .lh-course__title {
   margin: 0 0 2px;
   font-family: var(--fontfamily-base);

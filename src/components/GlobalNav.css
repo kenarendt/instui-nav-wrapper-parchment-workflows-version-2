@@ -363,6 +363,12 @@
   text-align: left;
 }
 .gnav__profile-card:hover { background: #f7f9fb; }
+/* One account: the card only states who you are, so it does not react. */
+.gnav__profile-card--static,
+.gnav__profile-card--static:hover {
+  background: var(--background-containercolor);
+  cursor: default;
+}
 .gnav__profile-text {
   display: flex;
   flex-direction: column;
@@ -428,9 +434,14 @@
   color: var(--heading-basecolor);
   text-align: left;
 }
-.gnav__switch-item:hover { background: #eef1f8; }
+.gnav__switch-item:hover,
+.gnav__switch-item:focus-visible {
+  background: #e8f0fc;
+}
+/* Active = you are on that experience's Connect screen. */
 .gnav__switch-item--active,
-.gnav__switch-item--active:hover {
+.gnav__switch-item--active:hover,
+.gnav__switch-item--active:focus-visible {
   background: var(--button-primary-bg);
   color: #fff;
 }
@@ -476,6 +487,7 @@
 }
 .gnav__panel-link:hover { background: #eef1f8; }
 
+/* Cross-experience jump */
 /* User interface controls */
 .gnav__panel-ui {
   margin-top: auto;

@@ -8,7 +8,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "package": "vite build && cp dist/index.html prototype.html"
+    "package": "vite build && cp dist/dev.html index.html && cp dist/dev.html prototype.html"
   },
   "dependencies": {
     "lucide-react": "^0.454.0",

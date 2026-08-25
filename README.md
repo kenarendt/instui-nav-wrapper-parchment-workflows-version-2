@@ -2,6 +2,12 @@
 
 A conceptual prototype of the Parchment platform experience, recreated in React from Figma (91.01.01 User Authentication and the HUB) using the InstUI 2026 design tokens. It simulates one user with multiple profiles under a single account login, moving through the application across simulated browser tabs.
 
+## Preview it without a server (double-click)
+
+`index.html` in the project root is a built, self-contained page — all JavaScript and CSS inlined. Double-click it, or open it in any browser, and the whole prototype runs. No install, no local server.
+
+A build is checked in, so this works straight from a fresh clone. `prototype.html` is an identical copy, kept so older links keep working.
+
 ## Run it (development)
 
 ```bash
@@ -9,20 +15,15 @@ npm install
 npm run dev
 ```
 
-Open the URL Vite prints (usually http://localhost:5173).
+The dev entry is `dev.html`, not `index.html` — the built page owns `index.html`. `npm run dev` opens `/dev.html` for you, and the dev server redirects `/` there too, so you never get served the stale build by accident.
 
-## Run it without a server (share with teammates)
-
-The project builds to a single self-contained HTML file that runs by double-clicking — no local server, no install.
+## Rebuild the double-click file
 
 ```bash
-npm install
 npm run package
 ```
 
-This produces `prototype.html` in the project root (a copy of `dist/index.html`) with all JavaScript and CSS inlined. Double-click it, or open it in any browser, and the whole prototype runs.
-
-To share: commit `prototype.html` to GitHub. Teammates download it (or the repo) and open the file directly — nothing to install. A build is already checked in, so re-run `npm run package` whenever the code changes to refresh it.
+This builds `dist/dev.html` and copies it over both `index.html` and `prototype.html`. Re-run it whenever the source changes, and commit the result so teammates get the update.
 
 Notes on the file:// approach:
 

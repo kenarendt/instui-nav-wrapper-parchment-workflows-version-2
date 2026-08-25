@@ -24,7 +24,7 @@ export default function PlatformSettings() {
         items: NAV_ITEMS,
         productLogo: "parchment",
       }}
-      activeProfileId="platform"
+      experienceType="admin"
       title="Platform Settings"
       description="Configure and manage system level settings across all of your Parchment services."
     >

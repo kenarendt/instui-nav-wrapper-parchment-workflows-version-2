@@ -9,12 +9,15 @@ export default function IconButton({
   screenReaderLabel,
   variant = "secondary",
   onClick,
+  // Set for toggle buttons so assistive tech reports the on/off state.
+  pressed,
 }) {
   return (
     <button
       type="button"
       className={`icon-btn icon-btn--${variant}`}
       aria-label={screenReaderLabel}
+      aria-pressed={pressed}
       onClick={onClick}
     >
       {Icon ? <Icon size={20} strokeWidth={2} /> : null}
